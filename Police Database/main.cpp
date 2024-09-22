@@ -6,27 +6,37 @@
 //
 
 #include <iostream>
+#include <string>
 #include <map>
 using namespace std;
 
+class PoliceDepartment{
+    
+};
+
 class Police{
 private:
-    string officerName;
-    int officerBadge;
-    string officerDistrict;
+    string policeName;
+    int policeBadge;
+    string policeDistrict;
     
 public:
     Police (){}
-    Police (const string& name, int badge, const string& district):officerName(name), officerBadge(badge), officerDistrict (district){}
+    Police (const string& name, int badge, const string& district):policeName(name), policeBadge(badge), policeDistrict (district){}
     
-    void setPoliceName(const string& name){officerName = name;}
-    void setPoliceBadge(int badge){officerBadge = badge;}
-    void setPoliceDistrict(const string& district){ officerDistrict = district;}
+    void setPoliceName(const string& name){policeName = name;}
+    void setPoliceBadge(int badge){policeBadge = badge;}
+    void setPoliceDistrict(const string& district){ policeDistrict = district;}
     
-    string getPoliceName() const {return officerName;}
-    int getPoliceBadge() {return officerBadge;}
-    string getPoliceDistrict() const {return officerDistrict;}
+    string getPoliceName() const {return policeName;}
+    int getPoliceBadge() const {return policeBadge;}
+    string getPoliceDistrict() const {return policeDistrict;}
     
+    void displayOfficerInfo()const {
+        cout << "POLICE OFFICER: " << policeName
+        << " BADGE #: " << policeBadge
+        << "ASSIGNED DISTRICT: " << policeDistrict << endl;
+    }
 };
 
 
