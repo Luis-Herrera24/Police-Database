@@ -10,10 +10,6 @@
 #include <map>
 using namespace std;
 
-class PoliceDepartment{
-    
-};
-
 class Police{
 private:
     string policeName;
@@ -39,6 +35,35 @@ public:
     }
 };
 
+class PoliceDepartment{
+private:
+    map<int, Police> policeOfficerDB;
+    
+public:
+    void addPoliceOfficer(const Police& officer){
+        policeOfficerDB[officer.getPoliceBadge()] = officer;
+    }
+    
+    void remorePoliceOfficer(int badge){
+        auto policeIteration = policeOfficerDB.find(badge);
+        if(policeIteration != policeOfficerDB.end()){
+            cout << "Police Officer: "
+            << policeIteration -> second.getPoliceName() << " was removed from the system" << endl;
+            policeOfficerDB.erase(badge);
+        }
+        else cout << "Police Officer with badge #: " << badge << " was not located." << endl;
+    }
+    void displayAllPolice(){
+        for(auto& pair : policeOfficerDB){
+            pair.second.displayOfficerInfo();
+            cout << endl;
+        }
+        if(policeOfficerDB.empty()){
+            cout << "This Police Department has no active police officers" << endl;
+        }
+    }
+    
+};
 
 int main(int argc, const char * argv[]) {
    
