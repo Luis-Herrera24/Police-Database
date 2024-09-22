@@ -67,11 +67,11 @@ public:
         officer.displayPoliceInfo();
     }
     
-    // Helper function to find a particual officer based on badge #
-    bool findPoliceOfficer(int badge,Police*& officer, map<int, Police> policeOfficerDB){
+    // Helper function to find a specific officer based on badge #
+    bool findPoliceOfficer(int badge, Police*& officer, const map<int, Police> policeOfficerDB){
         auto policeIterator = policeOfficerDB.find(badge);
         if(policeIterator != policeOfficerDB.end()){
-            officer = &(policeIterator->second);
+            officer = const_cast<Police*>(&(policeIterator->second));
             return true;
         }
         else {
@@ -124,7 +124,7 @@ public:
         Police* officer = nullptr;
         if(findPoliceOfficer(badge, officer, policeOfficerDB)){
             officer -> setPoliceDistrict(district);
-            cout << "The disctict for officer with badge # " << badge << " was updated." << endl;
+            cout << "The district for officer with badge # " << badge << " was updated." << endl;
         }
         else
             cout  << "Officer with badge #: " << badge << " was not found." << endl;
@@ -147,30 +147,30 @@ public:
 
 int main(int argc, const char * argv[]) {
    
-    PoliceDepartment sherrifDepartment;
+    PoliceDepartment sheriffDepartment;
     // string (name) , int (badge) , string (district), string (rank)
     Police officer1("Luis Herrera", 5145, "East", "Deputy");
     Police o2("Allison Mich", 4546, "west","Sr. Deputy");
     // Test creating a blank officer
     Police test;
     
-    sherrifDepartment.addPoliceOfficer(officer1);
-    sherrifDepartment.addPoliceOfficer(o2);
-    sherrifDepartment.addPoliceOfficer(test);
+    sheriffDepartment.addPoliceOfficer(officer1);
+    sheriffDepartment.addPoliceOfficer(o2);
+    sheriffDepartment.addPoliceOfficer(test);
     
-    sherrifDepartment.updatePoliceName(4546, "Allison Micho");
-    sherrifDepartment.updatePoliceRank(5145, "Captain");
-    sherrifDepartment.updatePoliceDistrict(4546, "West");
-    sherrifDepartment.updatePoliceName(1234, "J. W Bush");
-    sherrifDepartment.updatePoliceRank(3567, "Master");
-    sherrifDepartment.updatePoliceDistrict(3246, "Central");
+    sheriffDepartment.updatePoliceName(4546, "Allison Micho");
+    sheriffDepartment.updatePoliceRank(5145, "Captain");
+    sheriffDepartment.updatePoliceDistrict(4546, "West");
+    sheriffDepartment.updatePoliceName(1234, "J. W Bush");
+    sheriffDepartment.updatePoliceRank(3567, "Master");
+    sheriffDepartment.updatePoliceDistrict(3246, "Central");
     
-    /*sherrifDepartment.findPoliceOfficer(5145);
-    sherrifDepartment.findPoliceOfficer(4325);
+    /*sheriffDepartment.findPoliceOfficer(5145);
+     sheriffDepartment.findPoliceOfficer(4325);
     */
-    sherrifDepartment.displayAllPolice();
-    sherrifDepartment.removePoliceOfficer(5145);
-    sherrifDepartment.displayAllPolice();
+    sheriffDepartment.displayAllPolice();
+    sheriffDepartment.removePoliceOfficer(5145);
+    sheriffDepartment.displayAllPolice();
     
     return 0;
 }
