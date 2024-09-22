@@ -10,100 +10,138 @@
 #include <map>
 using namespace std;
 
+// Police class that represents a police officer with attributes like name, badge number, district, and rank
 class Police{
 private:
+    //Attributes of a police officer
     string policeName;
     int policeBadge;
     string policeDistrict;
     string policeRank;
+  //string policeEmail;
     
 public:
-    Police (){}
-    Police (const string& name, int badge, const string& district, const string rank):
-    policeName(name), policeBadge(badge),policeDistrict (district), policeRank(rank){}
+    // Default Constructor
+    Police(): policeName("N/A"), policeBadge(0), policeDistrict("Unassigned"),policeRank("N/A"){}
     
+    // Constructor
+    Police (const string& name, const int badge, const string& district, const string& rank):
+    policeName(name), policeBadge(badge),policeDistrict (district), policeRank(rank) {}
+    
+    /*/ Destructor
     ~ Police(){
         cout << "Police officer is being deleted" << endl;
-    }
-    
+    }*/
+     
+    // Setter Methods
     void setPoliceName(const string& name){policeName = name;}
     void setPoliceBadge(int badge){policeBadge = badge;}
     void setPoliceDistrict(const string& district){ policeDistrict = district;}
     void setPoliceRank(const string& rank){ policeRank = rank;}
     
+    // Getter Methods
     string getPoliceName() const {return policeName;}
     int getPoliceBadge() const {return policeBadge;}
     string getPoliceDistrict() const {return policeDistrict;}
     string getPoliceRank() const {return policeRank;}
     
-    void displayOfficerInfo()const {
+    // Method to display officers info
+    void displayPoliceInfo()const {
         cout << policeRank<< " " << policeName
-        << " Badge #: " << policeBadge
-        << " Assigned District: " << policeDistrict << endl;
+        << " Badge#: " << policeBadge
+        << " District: " << policeDistrict << endl;
     }
 };
 
 class PoliceDepartment{
 private:
+    // A map to store police officers, where the key is the officer's badge #
+    // and  value is the Police object containing the officer's details.
     map<int, Police> policeOfficerDB;
     
 public:
+    // Method that adds officer into a map based on badge #
     void addPoliceOfficer(const Police& officer){
         policeOfficerDB[officer.getPoliceBadge()] = officer;
         cout << "ADDED: ";
-        officer.displayOfficerInfo();
-        cout << endl;
+        officer.displayPoliceInfo();
     }
     
+    // Helper function to find a particual officer based on badge #
+    bool findPoliceOfficer(int badge,Police*& officer, map<int, Police> policeOfficerDB){
+        auto policeIterator = policeOfficerDB.find(badge);
+        if(policeIterator != policeOfficerDB.end()){
+            officer = &(policeIterator->second);
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+    void displayActiveOfficer(int badge){
+        Police* officer = nullptr;
+        if(findPoliceOfficer(badge, officer, policeOfficerDB)){
+            officer -> displayPoliceInfo();
+        }
+        else {
+             cout << "Police Officer with badge #: " << badge << " was not located." << endl;
+        }
+    }
+    // Method to remove a specific officer based on the badge #
     void removePoliceOfficer(int badge){
-        auto policeIteration = policeOfficerDB.find(badge);
-        if(policeIteration != policeOfficerDB.end()){
+        Police* officer = nullptr;
+        if(findPoliceOfficer(badge, officer, policeOfficerDB)){
             cout << "Police Officer: "
-            << policeIteration -> second.getPoliceName() << " was removed from the system" << endl;
+            << officer -> getPoliceName() << " was removed from the system" << endl;
             policeOfficerDB.erase(badge);
         }
         else cout << "Police Officer with badge #: " << badge << " was not located." << endl;
     }
+    
+    // Method that list out all current officers
     void displayAllPolice(){
         for(auto& pair : policeOfficerDB){
-            pair.second.displayOfficerInfo();
+            pair.second.displayPoliceInfo();
             cout << endl;
         }
         if(policeOfficerDB.empty()){
             cout << "This Police Department has no active police officers" << endl;
         }
     }
+    
+    // Method that updates the officers name
     void updatePoliceName(int badge,const string& name){
-        auto policeIteration = policeOfficerDB.find(badge);
-        if(policeIteration != policeOfficerDB.end()){
-            policeIteration -> second.setPoliceName(name);
-            cout << "Name of badge #: " << badge << "has been updated." << endl;
+        Police* officer = nullptr;
+        if(findPoliceOfficer(badge, officer, policeOfficerDB)){
+            officer -> setPoliceName(name);
+            cout << "Name of badge #: " << badge << " has been updated." << endl;
         }
         else
-            cout << "Officer with badge #: " << badge << "was not found." << endl;
+            cout << "Officer with badge #: " << badge << " was not found." << endl;
     }
+    // Method that updates the officers district
+    void updatePoliceDistrict(int badge, const string& district){
+        Police* officer = nullptr;
+        if(findPoliceOfficer(badge, officer, policeOfficerDB)){
+            officer -> setPoliceDistrict(district);
+            cout << "The disctict for officer with badge # " << badge << " was updated." << endl;
+        }
+        else
+            cout  << "Officer with badge #: " << badge << " was not found." << endl;
+    }
+    // Method that updates the officers rank
     void updatePoliceRank(int badge, const string& rank){
-        auto policeIteration = policeOfficerDB.find(badge);
-        if(policeIteration != policeOfficerDB.end()){
-            policeIteration -> second.setPoliceRank(rank);
-            cout << "Rank for badge #: " << badge << "was updated to " << rank << endl;
+        Police* officer = nullptr;
+        if(findPoliceOfficer(badge, officer, policeOfficerDB)){
+            officer -> setPoliceRank(rank);
+            cout << "Rank for badge #: " << badge << " was updated to " << rank << endl;
         }
         else
-            cout << "Officer with badge #: " << badge << "was not found." << endl;
-        
+            cout << "Officer with badge #: " << badge << " was not found." << endl;
     }
-    void updatePoliceDistict(int badge, const string& district){
-        auto policeIteration = policeOfficerDB.find(badge);
-        if(policeIteration != policeOfficerDB.end()){
-            policeIteration -> second.setPoliceDistrict(district);
-            cout << "The disctict for officer with badge # " << badge << " has been updated." << endl;
-        }
-        else
-            cout  << "Officer with badge #: " << badge << "was not found." << endl;
-    }
-    ~ PoliceDepartment(){
+    /*~ PoliceDepartment(){
         cout << "Police Department is being deleted" << endl;
-    }
+    }*/
     
 };
 
@@ -112,9 +150,24 @@ int main(int argc, const char * argv[]) {
     PoliceDepartment sherrifDepartment;
     // string (name) , int (badge) , string (district), string (rank)
     Police officer1("Luis Herrera", 5145, "East", "Deputy");
+    Police o2("Allison Mich", 4546, "west","Sr. Deputy");
+    // Test creating a blank officer
+    Police test;
     
     sherrifDepartment.addPoliceOfficer(officer1);
+    sherrifDepartment.addPoliceOfficer(o2);
+    sherrifDepartment.addPoliceOfficer(test);
     
+    sherrifDepartment.updatePoliceName(4546, "Allison Micho");
+    sherrifDepartment.updatePoliceRank(5145, "Captain");
+    sherrifDepartment.updatePoliceDistrict(4546, "West");
+    sherrifDepartment.updatePoliceName(1234, "J. W Bush");
+    sherrifDepartment.updatePoliceRank(3567, "Master");
+    sherrifDepartment.updatePoliceDistrict(3246, "Central");
+    
+    /*sherrifDepartment.findPoliceOfficer(5145);
+    sherrifDepartment.findPoliceOfficer(4325);
+    */
     sherrifDepartment.displayAllPolice();
     sherrifDepartment.removePoliceOfficer(5145);
     sherrifDepartment.displayAllPolice();
