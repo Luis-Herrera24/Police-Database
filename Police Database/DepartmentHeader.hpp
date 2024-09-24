@@ -160,6 +160,14 @@ private:
         sqlite3_bind_text(stmt, 3, officer.getPoliceDistrict().c_str(), -1,SQLITE_STATIC);
         sqlite3_bind_text(stmt, 4, officer.getPoliceRank().c_str(), -1, SQLITE_STATIC);
         
+        if(sqlite3_step(stmt) != SQLITE_DONE){
+            cout << "Error! Unable to insert Officer into Database" << endl;
+        }
+        else
+            cout << "Officer was added to Database" << endl;
+        
+        sqlite3_finalize(stmt);
+        sqlite3_close(dB);
     }
     
     void displayOfficerFromDatabase();
