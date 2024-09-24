@@ -141,9 +141,9 @@ public:
         else
             cout << "Officer with badge #: " << badge << " was not found." << endl;
     }
-    void exportInfoToFile(const string& filename){
+    void exportInfoToFile(const string& filename) const{
         
-        ofstream outFile(filename);
+        ofstream outFile(filename,ios::app);
         
         if(!outFile){
             cout << "Error opening the text file." << endl;

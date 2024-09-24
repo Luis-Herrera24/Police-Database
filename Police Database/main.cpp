@@ -28,7 +28,6 @@ void enteringOfficersInfo(){
     cin >> numberOfPolice;
     cin.ignore();
     
-    Police* policeList = new Police[numberOfPolice];
     
     for (int i = 0; i < numberOfPolice; i++){
         cout << "Please enter the Officers full name:" << endl;
@@ -38,13 +37,13 @@ void enteringOfficersInfo(){
         cout << "Please enter the Officers assigned district:" << endl;
         getline(cin, district);
         
-        policeList[i] = Police(fullname,badge,district,rank);
+        Police officer(fullname, badge, district, rank);
         
-        Sheriff_Department.addPoliceOfficer(policeList[i]);
-        Sheriff_Department.exportInfoToFile("OfficerList.txt");
+        Sheriff_Department.addPoliceOfficer(officer);
+    
         badge++;
     }
-    badge = badge;
+    Sheriff_Department.exportInfoToFile("OfficerList.txt");
 }
 
 
