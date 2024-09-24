@@ -15,7 +15,6 @@ int main() {
     string district;
     string rank;
     int numberOfPolice;
-  
     
     cout << "How many police officers would you like to enter into the system?" << endl;
     cin >> numberOfPolice;
@@ -34,6 +33,7 @@ int main() {
         policeList[i] = Police(fullname,badge,district,rank);
         
         Sheriff_Department.addPoliceOfficer(policeList[i]);
+        Sheriff_Department.exportInfoToFile("OfficerList.txt");
         badge++;
     }
     

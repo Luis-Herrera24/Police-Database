@@ -10,6 +10,7 @@
 #include <iostream>
 #include <string>
 #include <map>
+#include <fstream>
 using namespace std;
 
 // Police class that represents a police officer with attributes like name, badge number, district, and rank
@@ -140,6 +141,24 @@ public:
         else
             cout << "Officer with badge #: " << badge << " was not found." << endl;
     }
+    void exportInfoToFile(const string& filename){
+        
+        ofstream outFile(filename);
+        
+        if(!outFile){
+            cout << "Error opening the text file." << endl;
+            return;
+        }
+        for(auto& pair : policeOfficerDB){
+            const Police& officer = pair.second;
+            outFile << officer.getPoliceRank() << " " << officer.getPoliceName()
+            << " Badge#: " << officer.getPoliceBadge()
+            << " District: " << officer.getPoliceDistrict() << endl;
+        }
+        outFile.close();
+        cout << "data exported" << endl;
+    }
+    
     /*~ PoliceDepartment(){
         cout << "Police Department is being deleted" << endl;
     }*/
