@@ -33,14 +33,12 @@ int main() {
         
         Police officer(fullname, badge, district, rank);
         
-        Sheriff_Department.addPoliceOfficer(officer);
+        //Sheriff_Department.addPoliceOfficer(officer);
     
         badge++;
     }
     
     Sheriff_Department.displayAllPolice();
-    
-    Sheriff_Department.exportInfoToFile("OfficerList.txt");
     
     return 0;
 }
