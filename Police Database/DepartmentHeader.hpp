@@ -139,7 +139,28 @@ private:
         return officer;
     }
     
-    void insertOfficerIntoDatabase(const Police& officer);
+    void insertOfficerIntoDatabase(const Police& officer){
+        sqlite3* dB;
+        
+        if(sqlite3_open("police_department.db", &dB) != SQLITE_OK){
+            cout << "Error! Unable to open database" << endl;
+            return;
+        }
+        
+        string sql = "INSERT INTO Officers (name, badge, district, rank) VALUES(?,?,?,?)";
+        sqlite3_stmt* stmt;
+        
+        if(sqlite3_prepare_v2(dB,sql.c_str(), -1, &stmt, nullptr) != SQLITE_OK){
+            cout << "Error! Incorrect Statement" << endl;
+            sqlite3_close(dB);
+            return;
+        }
+        sqlite3_bind_text(stmt, 1, officer.getPoliceName().c_str(), -1, SQLITE_STATIC);
+        sqlite3_bind_int(stmt, 2, officer.getPoliceBadge());
+        sqlite3_bind_text(stmt, 3, officer.getPoliceDistrict().c_str(), -1,SQLITE_STATIC);
+        sqlite3_bind_text(stmt, 4, officer.getPoliceRank().c_str(), -1, SQLITE_STATIC);
+        
+    }
     
     void displayOfficerFromDatabase();
     void updateOfficerFromDatabase(int badge,const string& name,const string& district, const string& rank);
