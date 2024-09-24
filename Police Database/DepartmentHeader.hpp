@@ -11,6 +11,8 @@
 #include <string>
 #include <map>
 #include <fstream>
+#include <sqlite3.h>
+
 using namespace std;
 
 // Police class that represents a police officer with attributes like name, badge number, district, and rank
@@ -56,112 +58,42 @@ public:
 };
 
 class PoliceDepartment{
-private:
-    // A map to store police officers, where the key is the officer's badge #
-    // and  value is the Police object containing the officer's details.
-    map<int, Police> policeOfficerDB;
     
 public:
-    // Method that adds officer into a map based on badge #
-    void addPoliceOfficer(const Police& officer){
-        policeOfficerDB[officer.getPoliceBadge()] = officer;
-        cout << "ADDED: ";
+    // Method that adds officer based on badge #
+    void addPoliceOfficer(Police& officer){
+        insertOfficerIntoDatabase(officer);
+        cout << "OFFICER ADDED: ";
         officer.displayPoliceInfo();
-    }
-    
-    // Helper function to find a specific officer based on badge #
-    bool findPoliceOfficer(int badge, Police*& officer, const map<int, Police>& policeOfficerDB){
-        auto policeIterator = policeOfficerDB.find(badge);
-        if(policeIterator != policeOfficerDB.end()){
-            officer = const_cast<Police*>(&(policeIterator->second));
-            return true;
-        }
-        else {
-            return false;
-        }
-    }
-    void displayActiveOfficer(int badge){
-        Police* officer = nullptr;
-        if(findPoliceOfficer(badge, officer, policeOfficerDB)){
-            officer -> displayPoliceInfo();
-        }
-        else {
-             cout << "Police Officer with badge #: " << badge << " was not located." << endl;
-        }
-    }
-    // Method to remove a specific officer based on the badge #
-    void removePoliceOfficer(int badge){
-        Police* officer = nullptr;
-        if(findPoliceOfficer(badge, officer, policeOfficerDB)){
-            cout << "Police Officer: "
-            << officer -> getPoliceName() << " was removed from the system" << endl;
-            policeOfficerDB.erase(badge);
-        }
-        else cout << "Police Officer with badge #: " << badge << " was not located." << endl;
     }
     
     // Method that list out all current officers
     void displayAllPolice(){
-        for(auto& pair : policeOfficerDB){
-            pair.second.displayPoliceInfo();
-            cout << endl;
-        }
-        if(policeOfficerDB.empty()){
-            cout << "This Police Department has no active police officers" << endl;
-        }
+        displayOfficerFromDatabase();
     }
+    
+    //Function to find a specific officer based on badge #
+    void findPoliceOfficer(int badge){}
+    
+    void displayAllOfficer(){}
+    
+    // Method to remove a specific officer based on the badge #
+    void removePoliceOfficer(int badge){}
     
     // Method that updates the officers name
-    void updatePoliceName(int badge,const string& name){
-        Police* officer = nullptr;
-        if(findPoliceOfficer(badge, officer, policeOfficerDB)){
-            officer -> setPoliceName(name);
-            cout << "Name of badge #: " << badge << " has been updated." << endl;
-        }
-        else
-            cout << "Officer with badge #: " << badge << " was not found." << endl;
-    }
-    // Method that updates the officers district
-    void updatePoliceDistrict(int badge, const string& district){
-        Police* officer = nullptr;
-        if(findPoliceOfficer(badge, officer, policeOfficerDB)){
-            officer -> setPoliceDistrict(district);
-            cout << "The district for officer with badge # " << badge << " was updated." << endl;
-        }
-        else
-            cout  << "Officer with badge #: " << badge << " was not found." << endl;
-    }
-    // Method that updates the officers rank
-    void updatePoliceRank(int badge, const string& rank){
-        Police* officer = nullptr;
-        if(findPoliceOfficer(badge, officer, policeOfficerDB)){
-            officer -> setPoliceRank(rank);
-            cout << "Rank for badge #: " << badge << " was updated to " << rank << endl;
-        }
-        else
-            cout << "Officer with badge #: " << badge << " was not found." << endl;
-    }
-    void exportInfoToFile(const string& filename) const{
-        
-        ofstream outFile(filename,ios::app);
-        
-        if(!outFile){
-            cout << "Error opening the text file." << endl;
-            return;
-        }
-        for(auto& pair : policeOfficerDB){
-            const Police& officer = pair.second;
-            outFile << officer.getPoliceRank() << " " << officer.getPoliceName()
-            << " Badge#: " << officer.getPoliceBadge()
-            << " District: " << officer.getPoliceDistrict() << endl;
-        }
-        outFile.close();
-        cout << "data exported" << endl;
-    }
+    void updatePoliceName(int badge,const string& name){}
     
-    /*~ PoliceDepartment(){
-        cout << "Police Department is being deleted" << endl;
-    }*/
+    // Method that updates the officers district
+    void updatePoliceDistrict(int badge, const string& district){}
+    
+    // Method that updates the officers rank
+    void updatePoliceRank(int badge, const string& rank){}
+    
+    int readLastBadgeFromDatabase();
+    void insertOfficerIntoDatabase(const Police& officer);
+    void displayOfficerFromDatabase();
+    void updateOfficerFromDatabase(int badge,const string& name,const string& district, const string& rank);
+    void removeOfficerByBadge(int badge);
     
 };
 
