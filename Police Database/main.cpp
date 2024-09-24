@@ -6,16 +6,10 @@
 //
 
 #include "DepartmentHeader.hpp"
-void enteringOfficersInfo();
+void enteringOfficersInfo(PoliceDepartment& department);
 
 int main() {
-    
-    enteringOfficersInfo();
-
-    return 0;
-}
-void enteringOfficersInfo(){
-    
+   
     PoliceDepartment Sheriff_Department;
     
     string fullname;
@@ -43,7 +37,16 @@ void enteringOfficersInfo(){
     
         badge++;
     }
+    
+    Sheriff_Department.displayAllPolice();
+    
     Sheriff_Department.exportInfoToFile("OfficerList.txt");
+    
+    return 0;
+}
+void enteringOfficersInfo(PoliceDepartment& department){
+    
+    return;
 }
 
 
