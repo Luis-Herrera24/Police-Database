@@ -224,8 +224,33 @@ private:
         sql+= "WHERE badge = ?;";
         sqlite3_stmt* stmt;
         
+        if(sqlite3_prepare_v2(dB, sql.c_str(), -1, &stmt, nullptr) != SQLITE_OK){
+            cout << "Error! Incorrect Statement" << endl;
+            sqlite3_close(dB);
+            return;
+        }
         
+        int index = 1;
+        if(!name.empty()){
+            sqlite3_bind_text(stmt, index++, name.c_str(), -1, SQLITE_STATIC);
+        }
+        if(!district.empty()){
+            sqlite3_bind_text(stmt, index++, district.c_str(), -1, SQLITE_STATIC);
+        }
+        if(!rank.empty()){
+            sqlite3_bind_text(stmt, index++, rank.c_str(), -1, SQLITE_STATIC);
+        }
         
+        sqlite3_bind_int(stmt, index, badge);
+        
+        if(sqlite3_step(stmt) != SQLITE_DONE){
+            cout << "Error! Unable to update Officers infromation" << endl;
+        }
+        else
+            cout << "Officers infromation was updated!" << endl;
+        
+        sqlite3_finalize(stmt);
+        sqlite3_close(dB);
     }
     void removeOfficerByBadge(int badge);
     
