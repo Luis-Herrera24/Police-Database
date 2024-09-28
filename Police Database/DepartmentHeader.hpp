@@ -170,8 +170,37 @@ private:
         sqlite3_close(dB);
     }
     
-    void displayOfficerFromDatabase();
-    void updateOfficerFromDatabase(int badge,const string& name,const string& district, const string& rank);
+    void displayOfficerFromDatabase(){
+        sqlite3* dB;
+        
+        if(sqlite3_open("policeDepartment.bd", &dB) != SQLITE_OK){
+            cout << "Error! Unable to open database" << endl;
+            return;
+        }
+        
+        string sql = "SELECT name, badge,rank, district FROM Officers; ";
+        sqlite3_stmt* stmt;
+        
+        if(sqlite3_prepare_v2(dB, sql.c_str(), -1, &stmt, nullptr) != SQLITE_OK){
+            cout << "Error! Incorrect Statement" << endl;
+            sqlite3_close(dB);
+            return;
+        }
+        cout << "Officers in Daatabase:" << endl;
+        
+        while(sqlite3_step(stmt)== SQLITE_ROW){
+            cout << reinterpret_cast<const char*>(sqlite3_column_text(stmt, 3)) << " "
+            << reinterpret_cast<const char*>(sqlite3_column_text(stmt, 0)) << ", "
+            << "Badge#: " << sqlite3_column_int(stmt, 1) << ", "
+            << "District " << reinterpret_cast<const char*>(sqlite3_column_text(stmt, 4)) << endl;
+        }
+        sqlite3_finalize(stmt);
+        sqlite3_close(dB);
+        
+    }
+    void updateOfficerFromDatabase(int badge,const string& name,const string& district, const string& rank){
+        
+    }
     void removeOfficerByBadge(int badge);
     
     
