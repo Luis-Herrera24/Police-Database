@@ -199,6 +199,32 @@ private:
         
     }
     void updateOfficerFromDatabase(int badge,const string& name,const string& district, const string& rank){
+        sqlite3* dB;
+        
+        if(sqlite3_open("policeDepartment.bd", &dB) != SQLITE_OK){
+            cout << "Error! Unable to open database" << endl;
+            return;
+        }
+        
+        string sql = "UPDATE Officers SET ";
+        bool first = true;
+        
+        if(!name.empty()){
+            sql+= "name = ?";
+            first = false;
+        }
+        if(!district.empty()){
+            sql+= "district = ?";
+            first = false;
+        }
+        if(!rank.empty()){
+            sql+= "rank = ?";
+            first = false;
+        }
+        sql+= "WHERE badge = ?;";
+        sqlite3_stmt* stmt;
+        
+        
         
     }
     void removeOfficerByBadge(int badge);
