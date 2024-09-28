@@ -252,7 +252,33 @@ private:
         sqlite3_finalize(stmt);
         sqlite3_close(dB);
     }
-    void removeOfficerByBadge(int badge);
+    void removeOfficerByBadge(int badge){
+        sqlite3* dB;
+        
+        if(sqlite3_open("policeDepartment.bd", &dB) != SQLITE_OK){
+            cout << "Error! Unable to open database" << endl;
+            return;
+        }
+        string sql = "DELETE FROM Officers WHERE badge = ?";
+        sqlite3_stmt* stmt;
+        
+        if(sqlite3_prepare_v2(dB, sql.c_str(), -1, &stmt, nullptr) != SQLITE_OK){
+            cout << "Error! Incorrect Statement" << endl;
+            sqlite3_close(dB);
+            return;
+        }
+        
+        sqlite3_bind_int(stmt, 1, badge);
+        
+        if(sqlite3_step(stmt) != SQLITE_DONE){
+            cout << "Error! Unable to remove Officers from database" << endl;
+        }
+        else
+            cout << "Officers with badge #: " << badge << " was removed from database!" << endl;
+        
+        sqlite3_finalize(stmt);
+        sqlite3_close(dB);
+    }
     
     
 public:
