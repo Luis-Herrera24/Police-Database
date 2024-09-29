@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		3211F73C2CA86671001719CC /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 3211F73B2CA86671001719CC /* libsqlite3.0.tbd */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXCopyFilesBuildPhase section */
 		3211F70E2CA069A8001719CC /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
@@ -20,6 +24,7 @@
 
 /* Begin PBXFileReference section */
 		3211F7102CA069A8001719CC /* Police Database */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "Police Database"; sourceTree = BUILT_PRODUCTS_DIR; };
+		3211F73B2CA86671001719CC /* libsqlite3.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.0.tbd; path = usr/lib/libsqlite3.0.tbd; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -35,6 +40,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3211F73C2CA86671001719CC /* libsqlite3.0.tbd in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -45,6 +51,7 @@
 			isa = PBXGroup;
 			children = (
 				3211F7122CA069A8001719CC /* Police Database */,
+				3211F73A2CA86671001719CC /* Frameworks */,
 				3211F7112CA069A8001719CC /* Products */,
 			);
 			sourceTree = "<group>";
@@ -55,6 +62,14 @@
 				3211F7102CA069A8001719CC /* Police Database */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		3211F73A2CA86671001719CC /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				3211F73B2CA86671001719CC /* libsqlite3.0.tbd */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
