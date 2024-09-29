@@ -50,4 +50,28 @@ After running the program, you will be presented with a menu of options to inter
 - **6. Delete Database**
 - **7. Exit**
 
+## Example Usage
+
+### 1. Add Police Officer:
+When you select this option, you will be prompted to enter the officer's name, district, and rank. The badge number will be automatically incremented based on the last saved badge number in the database.
+
+### 2. Display All Officers:
+This option will list all officers currently in the database.
+
+### 3. Find Officer by Badge Number:
+You can search for an officer by their unique badge number.
+
+### 4. Update Officer:
+Allows you to update the name, district, or rank of an officer based on their badge number.
+
+### 5. Remove Officer:
+Removes an officer from the database by their badge number.
+
+### 6. Delete Database:
+Drops the table of officers, effectively deleting all stored data.
+
+### 7. Exit:
+Exits the program.
+
+
 
