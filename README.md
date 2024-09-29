@@ -33,3 +33,21 @@ The main components of this project are:
 
    ```bash
    g++ -std=c++11 main.cpp -o policeDatabase -lsqlite3
+   ```
+3. Run the program
+   ``` bash
+   ./policeDatabase
+   
+## Usage
+After running the program, you will be presented with a menu of options to interact with the police database:
+
+### Police Database Menu:
+- **1. Add Police Officer**
+- **2. Display All Officers**
+- **3. Find Officer by Badge Number**
+- **4. Update Officer**
+- **5. Remove Officer by Badge Number**
+- **6. Delete Database**
+- **7. Exit**
+
+
