@@ -211,8 +211,8 @@ private:
             return;
         }
         
-        string sql = "SELECT name, badge,rank, district FROM Officers; ";
         sqlite3_stmt* stmt;
+        string sql = "SELECT * FROM Officers;";
         
         if(sqlite3_prepare_v2(dB, sql.c_str(), -1, &stmt, nullptr) != SQLITE_OK){
             cout << "Error! Incorrect Statement" << endl;
@@ -221,11 +221,15 @@ private:
         }
         cout << "Officers in Database:" << endl;
         
-        while(sqlite3_step(stmt)== SQLITE_ROW){
-            cout << reinterpret_cast<const char*>(sqlite3_column_text(stmt, 3)) << " "
-            << reinterpret_cast<const char*>(sqlite3_column_text(stmt, 0)) << ", "
-            << "Badge#: " << sqlite3_column_int(stmt, 1) << ", "
-            << "District " << reinterpret_cast<const char*>(sqlite3_column_text(stmt, 2)) << endl;
+        while (sqlite3_step(stmt) == SQLITE_ROW) {
+            // Retrieve the data by index
+            int badge = sqlite3_column_int(stmt, 1); // badge
+            const unsigned char* name = sqlite3_column_text(stmt, 2); // name
+            const unsigned char* district = sqlite3_column_text(stmt, 3); // district
+            const unsigned char* rank = sqlite3_column_text(stmt, 4); // rank
+            
+            // Display in proper order
+            cout << rank << " " << name << ", Badge#: " << badge << ", District: " << district << endl;
         }
         sqlite3_finalize(stmt);
         sqlite3_close(dB);
